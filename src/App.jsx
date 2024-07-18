@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 
 import './App.css'
 import CurrencyRow from './components/CurrencyRow'
+import { data } from 'autoprefixer';
 
 const BASE_URL = "https://open.er-api.com/v6/latest";
 
@@ -40,6 +41,15 @@ function App() {
         )
     }, []
   )
+  useEffect(
+    () => {
+      if (fromAmount != null && toCurrency != null) {
+        fetch(`${BASE_URL}/${fromCurrency}`)
+          .then(res => res.json())
+          .then(data => setExchangeRate(data.rates[toCurrency]))
+      }
+    }, [fromCurrency, toCurrency]
+  )
 
   function handleFromAmountChange(e) {
     setAmount(e.target.value);
@@ -50,6 +60,7 @@ function App() {
     setAmount(e.target.value);
     setAmountInFromCurrency(false);
   }
+
 
   return (
     <>
